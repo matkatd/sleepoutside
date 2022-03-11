@@ -27,3 +27,24 @@ export function getParam(param) {
   const urlParams = new URLSearchParams(queryString);
   return urlParams.get(param);
 }
+
+export function renderListWithTemplate(
+  template,
+  parentElement,
+  list,
+  callback
+) {
+  list.forEach((product) => {
+    const clone = template.content.cloneNode(true);
+    const readyTemplate = callback(clone, product);
+    parentElement.appendChild(readyTemplate);
+  });
+}
+
+export function convertToJson(res) {
+  if (res.ok) {
+    return res.json();
+  } else {
+    throw new Error("Bad Response");
+  }
+}
