@@ -48,3 +48,21 @@ export function convertToJson(res) {
     throw new Error("Bad Response");
   }
 }
+
+export function setCartIndicator() {
+  const cartItems = getLocalStorage("so-cart");
+  let numProducts = 0;
+  const cartIndicator = document.querySelector(".cart-indicator");
+  if (cartItems == null || cartItems.length === 0) {
+    cartIndicator.style.display = "none";
+    return;
+  }
+  numProducts = cartItems.length;
+
+  cartIndicator.innerHTML = numProducts;
+  cartIndicator.style.display = "block";
+}
+
+export function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}

@@ -1,4 +1,4 @@
-import { setLocalStorage } from "./utils.js";
+import { setLocalStorage, getLocalStorage, setCartIndicator } from "./utils.js";
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -16,7 +16,23 @@ export default class ProductDetails {
   }
 
   addToCart() {
-    setLocalStorage("so-cart", this.product);
+    if (!Array.isArray(this.product)) {
+      this.product = [this.product];
+    }
+    let temp = getLocalStorage("so-cart");
+    if (temp == null) {
+      temp = [];
+    }
+    temp.push(this.product);
+    setLocalStorage("so-cart", temp);
+    setCartIndicator();
+  }
+
+  productDiscount(item) {
+    const origPrice = item.SuggestedRetailPrice;
+    const finalPrice = item.FinalPrice;
+    const discount = (100 * finalPrice) / origPrice;
+    return Math.round(100 - discount); // Get product discount to the nearest percentage
   }
 
   renderProductDetails() {
@@ -24,12 +40,20 @@ export default class ProductDetails {
         <section class="product-detail">
             <h3>${this.product.Brand.Name}</h3>
             <h2 class="divider">${this.product.NameWithoutBrand}</h2>
-            <img class="divider" src="${this.product.Image}" alt="${this.product.NameWithoutBrand}"/>
-            <p class="product-card__price>$${this.product.FinalPrice}</p>
+            <img class="divider" src="${this.product.Image}" alt="${
+      this.product.NameWithoutBrand
+    }"/>
+            <p class="product-card__price">$${
+              this.product.FinalPrice
+            } (${this.productDiscount(this.product)}% off)</p>
             <p class="product__color">${this.product.Colors[0].ColorName}</p>
-            <p class="product__description">${this.product.DescriptionHtmlSimple}</p>
+            <p class="product__description">${
+              this.product.DescriptionHtmlSimple
+            }</p>
             <div class="product-detail__add">
-                <button id="addToCart" data-id="${this.product.Id}">Add to Cart</button>
+                <button id="addToCart" data-id="${
+                  this.product.Id
+                }">Add to Cart</button>
             </div>
         </section>
       `;

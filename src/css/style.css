@@ -104,10 +104,22 @@ button {
 }
 
 .cart svg {
-  width: 25px;
+  width: 2em;
 }
 .cart:hover svg {
   fill: gray;
+}
+
+.cart .cart-indicator {
+  position: absolute;
+  right: -0.2em;
+  top: 0.1em;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 1.5em;
+  background-color: var(--primary-color);
+
+  display: none;
 }
 
 /* End cart icon styles */
@@ -200,6 +212,14 @@ button {
 .cart-card__price {
   grid-row: 2;
   grid-column: 3;
+}
+
+.cart-card span {
+  grid-column: 3/4;
+  justify-self: center;
+  color: red;
+  font-size: 1.5em;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 500px) {
